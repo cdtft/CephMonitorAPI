@@ -34,6 +34,7 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 		log.Println("open io context error!")
 		return
 	}
+	log.Println(rbd.GetImageNames(ctx))
 	img := rbd.GetImage(ctx, imageName)
 	err = img.Open()
 	if err != nil {
