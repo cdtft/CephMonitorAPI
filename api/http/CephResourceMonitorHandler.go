@@ -42,5 +42,8 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	log.Println(img.Stat())
+	log.Println(img.GetFeatures())
+	log.Println(img.GetStripeCount())
+	log.Println(img.GetStripeUnit())
 	_ = img.Close()
 }
