@@ -40,6 +40,7 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 		print(imageName + " image open error!")
 		return
 	}
-	log.Println(img.GetSize())
+	size, _:= img.GetSize()
+	log.Println(size)
 	_ = img.Close()
 }
