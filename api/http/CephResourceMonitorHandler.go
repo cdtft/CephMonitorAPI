@@ -17,6 +17,7 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	imageName := vars["imageName"]
 	conn, _ := rados.NewConn()
+	defer conn.Shutdown()
 	err := conn.ReadDefaultConfigFile()
 	if err != nil {
 		log.Println("read default config file error!")
@@ -28,13 +29,17 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	ctx, err := conn.OpenIOContext("k8s")
+	defer ctx.Destroy()
 	if err != nil {
 		log.Println("open io context error!")
 		return
 	}
 	img := rbd.GetImage(ctx, imageName)
-
+	err = img.Open()
+	if err != nil {
+		print(imageName + " image open error!")
+		return
+	}
 	log.Println(img.GetSize())
-	ctx.Destroy()
-	conn.Shutdown()
+	_ = img.Close()
 }
