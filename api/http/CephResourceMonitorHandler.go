@@ -33,7 +33,8 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	img := rbd.GetImage(ctx, imageName)
-	log.Println(img)
+
+	log.Println(img.GetSize())
 	ctx.Destroy()
 	conn.Shutdown()
 }
