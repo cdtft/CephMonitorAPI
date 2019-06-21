@@ -9,10 +9,10 @@ package rbd
 import "C"
 
 import (
+	"CephMonitorAPI/goceph/rados"
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/ceph/go-ceph/rados"
 	"io"
 	"time"
 	"unsafe"

@@ -1,6 +1,7 @@
 package rados_test
 
 import (
+	"CephMonitorAPI/goceph/rados"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -13,7 +14,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ceph/go-ceph/rados"
 	"github.com/gofrs/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

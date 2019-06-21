@@ -2,7 +2,9 @@ package http
 
 import (
 	"CephMonitorAPI/goceph/rados"
+	"CephMonitorAPI/goceph/rbd"
 	"fmt"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
@@ -12,27 +14,19 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
-	//vars := mux.Vars(request)
-	//imageName := vars["imageName"]
-
+	vars := mux.Vars(request)
+	imageName := vars["imageName"]
 	conn, _ := rados.NewConn()
-	poolNames, _ := conn.ListPools()
-	log.Println(poolNames)
+	conn.ReadDefaultConfigFile()
+	conn.Connect()
+
+	ioctx, err := conn.OpenIOContext("k8s")
+	if err != nil {
+		log.Println("open io context error")
+		return
+	}
+	img := rbd.GetImage(ioctx, imageName)
+	log.Println(img)
+	ioctx.Destroy()
+	conn.Shutdown()
 }
-
-//func TodoIndex(w http.ResponseWriter, r *http.Request) {
-//	todos := Todos{
-//		Todo{Name: "Write presentation"},
-//		Todo{Name: "Host meetup"},
-//	}
-//
-//	if err := json.NewEncoder(w).Encode(todos); err != nil {
-//		panic(err)
-//	}
-//}
-
-//func TodoShow(w http.ResponseWriter, r *http.Request) {
-//	vars := mux.Vars(r)
-//	todoId := vars["todoId"]
-//	fmt.Fprintln(w, "Todo show:", todoId)
-//}

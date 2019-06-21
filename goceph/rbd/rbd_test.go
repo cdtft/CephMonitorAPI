@@ -1,10 +1,10 @@
 package rbd_test
 
 import (
+	"CephMonitorAPI/goceph/rados"
+	"CephMonitorAPI/goceph/rbd"
 	"bytes"
 	"encoding/json"
-	"github.com/ceph/go-ceph/rados"
-	"github.com/ceph/go-ceph/rbd"
 	"github.com/stretchr/testify/assert"
 	"os/exec"
 	"sort"

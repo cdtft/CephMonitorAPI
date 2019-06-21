@@ -1,8 +1,8 @@
 package cephfs_test
 
 import (
+	"CephMonitorAPI/goceph/cephfs"
 	"fmt"
-	"github.com/ceph/go-ceph/cephfs"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"syscall"
