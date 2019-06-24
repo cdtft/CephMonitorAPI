@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os/exec"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -48,5 +49,13 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 	log.Println(img.GetStripeCount())
 	log.Println(img.GetStripeUnit())
 	log.Println()
+	command := "rbd diff k8s/"+ imageName +" | awk '{ SUM += $2 } END { print SUM/1024/1024 \" MB\" }'"
+	cmd := exec.Command("/bin/bash", "-c", command)
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Printf("Execute Shell:%s failed with error:%s", command, err.Error())
+		return
+	}
+	log.Println(output)
 	_ = img.Close()
 }
