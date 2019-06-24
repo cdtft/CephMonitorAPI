@@ -56,6 +56,6 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 		fmt.Printf("Execute Shell:%s failed with error:%s", command, err.Error())
 		return
 	}
-	log.Println(output)
+	log.Println(string(output))
 	_ = img.Close()
 }
