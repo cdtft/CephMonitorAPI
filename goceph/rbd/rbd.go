@@ -356,7 +356,7 @@ func (image *Image) Stat() (info *ImageInfo, err error) {
 		return info, RBDError(ret)
 	}
 
-	return &ImageInfo{
+	return &ImageInfo {
 		Size:              uint64(c_stat.size),
 		Obj_size:          uint64(c_stat.obj_size),
 		Num_objs:          uint64(c_stat.num_objs),

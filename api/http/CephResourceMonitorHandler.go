@@ -36,6 +36,8 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 	}
 	log.Println(rbd.GetImageNames(ctx))
 	img := rbd.GetImage(ctx, imageName)
+	log.Println(img)
+	log.Println("============")
 	err = img.Open()
 	if err != nil {
 		print(imageName + " image open error!")
@@ -45,5 +47,6 @@ func GetImageUsageByName(response http.ResponseWriter, request *http.Request) {
 	log.Println(img.GetFeatures())
 	log.Println(img.GetStripeCount())
 	log.Println(img.GetStripeUnit())
+	log.Println()
 	_ = img.Close()
 }
