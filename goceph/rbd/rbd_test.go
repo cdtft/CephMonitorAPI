@@ -5,11 +5,13 @@ import (
 	"CephMonitorAPI/goceph/rbd"
 	"bytes"
 	"encoding/json"
-	"github.com/stretchr/testify/assert"
+	"fmt"
 	"os/exec"
 	"sort"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 //Rdb feature
@@ -357,5 +359,64 @@ func TestTrashImage(t *testing.T) {
 
 	ioctx.Destroy()
 	conn.DeletePool(poolname)
+	conn.Shutdown()
+}
+
+func TestGetImage(t *testing.T) {
+	conn, _ := rados.NewConn()
+	conn.ReadDefaultConfigFile()
+	conn.Connect()
+
+	ctx, err := conn.OpenIOContext("k8s")
+	if err != nil {
+		fmt.Println("获取连接失败")
+	}
+	image := rbd.GetImage(ctx, "301.25")
+	image.Open()
+	if err != nil {
+		t.Log("image 创建失败")
+	}
+	snapNames, _ := image.GetSnapshotNames()
+	for s := range snapNames {
+		t.Log(s)
+	}
+	t.Log(image)
+	image.Close()
+	ctx.Destroy()
+	conn.Shutdown()
+}
+
+func simpleCallback(off, len, exi int, d interface{}) int {
+	data, ok := d.(*[3][4]int)
+	if !ok {
+		return 1
+	}
+	var i int
+	for i = range *data {
+		if data[i][0] == 0 {
+			break
+		}
+	}
+	data[i] = [4]int{1, off, len, exi}
+	return 0
+}
+
+func TestDiffIterate(t *testing.T) {
+	conn, _ := rados.NewConn()
+	conn.ReadDefaultConfigFile()
+	conn.Connect()
+
+	ctx, err := conn.OpenIOContext("k8s")
+	defer ctx.Destroy()
+	if err != nil {
+		fmt.Println("获取连接失败")
+	}
+	image := rbd.GetImage(ctx, "45.12")
+	image.Close()
+	err = image.Remove()
+
+	if err != nil {
+		fmt.Print(err)
+	}
 	conn.Shutdown()
 }
