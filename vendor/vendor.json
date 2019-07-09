@@ -1,0 +1,73 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "qlEzrgKgIkh7y0ePm9BNo1cNdXo=",
+			"path": "github.com/gin-contrib/sse",
+			"revision": "54d8467d122d380a14768b6b4e5cd7ca4755938f",
+			"revisionTime": "2019-06-02T15:02:53Z"
+		},
+		{
+			"checksumSHA1": "cpELhz30Sco7IBwvI6FyuShnjnQ=",
+			"path": "github.com/gin-gonic/gin",
+			"revision": "d459835d2b077e44f7c9b453505ee29881d5d12d",
+			"revisionTime": "2017-07-02T09:28:26Z",
+			"version": "v1.2",
+			"versionExact": "v1.2"
+		},
+		{
+			"checksumSHA1": "YVt5lqmGq95m5tFdiz5pr2BF1Jo=",
+			"path": "github.com/gin-gonic/gin/binding",
+			"revision": "d459835d2b077e44f7c9b453505ee29881d5d12d",
+			"revisionTime": "2017-07-02T09:28:26Z",
+			"version": "v1.2",
+			"versionExact": "v1.2"
+		},
+		{
+			"checksumSHA1": "M3FwiqpVbXwo9t2FyI5/gKxCDKY=",
+			"path": "github.com/gin-gonic/gin/render",
+			"revision": "d459835d2b077e44f7c9b453505ee29881d5d12d",
+			"revisionTime": "2017-07-02T09:28:26Z",
+			"version": "v1.2",
+			"versionExact": "v1.2"
+		},
+		{
+			"checksumSHA1": "CGj8VcI/CpzxaNqlqpEVM7qElD4=",
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "6c65a5562fc06764971b7c5d05c76c75e84bdbf7",
+			"revisionTime": "2019-07-01T18:22:01Z"
+		},
+		{
+			"checksumSHA1": "74gCzvJiE6bXX3i4vIVCYhffDHc=",
+			"path": "github.com/mattn/go-isatty",
+			"revision": "da60ac76bf7019a8b005f8dd1ad9d1a0e6434155",
+			"revisionTime": "2019-07-08T05:43:38Z"
+		},
+		{
+			"checksumSHA1": "sYPJsF3VamZlUTqjMmi97YyCnaU=",
+			"path": "github.com/ugorji/go/codec",
+			"revision": "02994ffebd8e7ef482130d13b570c8be0968b790",
+			"revisionTime": "2019-07-05T23:50:43Z"
+		},
+		{
+			"checksumSHA1": "oxQzknCJtgckDEKh+zp99Ph3Qkg=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "04f50cda93cbb67f2afa353c52f342100e80e625",
+			"revisionTime": "2019-06-26T21:29:17Z"
+		},
+		{
+			"checksumSHA1": "P/k5ZGf0lEBgpKgkwy++F7K1PSg=",
+			"path": "gopkg.in/go-playground/validator.v8",
+			"revision": "5f1438d3fca68893a817e4a66806cea46a9e4ebf",
+			"revisionTime": "2017-07-30T05:02:35Z"
+		},
+		{
+			"checksumSHA1": "QqDq2x8XOU7IoOR98Cx1eiV5QY8=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "51d6538a90f86fe93ac480b35f37b2be17fef232",
+			"revisionTime": "2018-11-15T11:05:04Z"
+		}
+	],
+	"rootPath": "CephMonitorAPI"
+}
