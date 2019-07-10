@@ -4,6 +4,7 @@ import "github.com/gin-gonic/gin"
 
 // 获取image信息
 func GetImageInfo(ctx *gin.Context) {
+	imageName := ctx.Param("name")
 
 }
 
@@ -22,6 +23,7 @@ func GetImageUsage(ctx *gin.Context) {
 
 }
 
+// resize
 func UpdateImageSize(ctx *gin.Context) {
 
 }
