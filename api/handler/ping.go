@@ -7,7 +7,7 @@ import (
 
 func Ping(ctx *gin.Context) {
 	ctx.JSON(200, serializer.ResponseJSON{
-		Code: 1000,
+		Code: 1200,
 		Msg:  "i am OK",
 	})
 }

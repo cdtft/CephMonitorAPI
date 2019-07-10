@@ -18,11 +18,10 @@ func NewRouter() *gin.Engine {
 	//rbd
 	rbdApi := router.Group("/api/v1/ceph/:pool/rbd")
 	{
-		rbdApi.GET("image/:name", handler.GetImageInfo)
-		rbdApi.POST("image", handler.CreateImage)
-		rbdApi.DELETE("image", handler.DeleteImage)
-		rbdApi.GET("image/usage", handler.GetImageUsage)
-		rbdApi.PUT("image/size", handler.UpdateImageSize)
+		rbdApi.POST("image/:name/:size", handler.CreateImage)
+		rbdApi.DELETE("image/:name", handler.DeleteImage)
+		rbdApi.GET("image/:name/usage", handler.GetImageUsage)
+		rbdApi.PUT("image/:name/size", handler.UpdateImageSize)
 	}
 
 	//cephfs
