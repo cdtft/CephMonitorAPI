@@ -1,13 +1,33 @@
 package service
 
-import "log"
+import (
+	"CephMonitorAPI/goceph/rados"
+	"CephMonitorAPI/goceph/rbd"
+	"errors"
+	"log"
+)
 
 type Image struct {
 	Pool string `uri:"pool" json:"pool"`
 	Name string `uri:"name" json:"name"`
-	Size int8 `uri:"size" json:"size"`
+	Size uint64 `uri:"size" json:"size"`
 }
 
-func (image *Image) Create() {
-	log.Fatalf("创建pool:%s, name:%s, size:%s", image.Pool, image.Name, image.Size)
+func (image *Image) Create() error {
+	log.Printf("创建pool:%s, name:%s, size:%d", image.Pool, image.Name, image.Size)
+	conn, _ := rados.NewConn()
+	conn.ReadDefaultConfigFile()
+	conn.Connect()
+	ioctx, err := conn.OpenIOContext(image.Pool)
+
+	if err != nil {
+		return errors.New("云盘创建失败:" + err.Error())
+	}
+	_, err = rbd.Create(ioctx, image.Name, image.Size*1024*1024*1024, 22)
+	if err != nil {
+		return errors.New("云盘创建失败:" + err.Error())
+	}
+	ioctx.Destroy()
+	conn.Shutdown()
+	return nil
 }

@@ -3,19 +3,27 @@ package handler
 import (
 	"CephMonitorAPI/api/serializer"
 	"CephMonitorAPI/api/service"
+
 	"github.com/gin-gonic/gin"
 )
 
 // 创建image
 func CreateImage(ctx *gin.Context) {
 	var image service.Image
-	if err := ctx.ShouldBind(&image); err == nil {
-		image.Create()
-		ctx.JSON(200, serializer.ResponseJSON{
-			Code: 1200,
-			Msg:  "创建成功",
-			Data: nil,
-		})
+	if err := ctx.ShouldBindUri(&image); err == nil {
+		if err := image.Create(); err == nil {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1200,
+				Msg:  "创建成功",
+				Data: nil,
+			})
+		} else {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1500,
+				Msg: err.Error(),
+				Data: nil,
+			})
+		}
 	} else {
 		ctx.JSON(400, serializer.ResponseJSON{
 			Code: 1400,
