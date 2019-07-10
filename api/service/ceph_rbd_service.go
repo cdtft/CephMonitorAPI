@@ -4,7 +4,9 @@ import (
 	"CephMonitorAPI/goceph/rados"
 	"CephMonitorAPI/goceph/rbd"
 	"errors"
+	"io/ioutil"
 	"log"
+	"os/exec"
 )
 
 type Image struct {
@@ -70,4 +72,20 @@ func (image *Image) Resize() error {
 		return errors.New("云盘删除失败:" + err.Error())
 	}
 	return nil
+}
+
+func (image *Image) GetUsage() (used int64, error error) {
+	cmd := exec.Command("rbd", "-u", image.Pool + "/" + image.Name)
+	sdtout, err := cmd.StdoutPipe()
+	if err != nil {
+		return -1, errors.New("云盘统计命令执行获取输出流失败")
+	}
+	defer sdtout.Close()
+	if err = cmd.Run(); err != nil {
+		return -1, errors.New("云盘统计命令执行失败")
+	}
+	result, _ := ioutil.ReadAll(sdtout)
+	log.Println(string(result))
+	//TODO 匹配出云盘的使用大小
+	return -2, nil
 }
