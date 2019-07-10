@@ -9,7 +9,7 @@ func NewRouter() *gin.Engine {
 
 	router := gin.Default()
 
-	 v1 := router.Group("/api/v1/ceph")
+	v1 := router.Group("/api/v1/ceph")
 	{
 		v1.POST("ping", handler.Ping)
 	}

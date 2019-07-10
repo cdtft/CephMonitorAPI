@@ -6,11 +6,6 @@ package rbd
 #include <rados/librados.h>
 #include <rbd/librbd.h>
 #include <rbd/features.h>
-
-extern int goDiffCB(uint64_t, size_t, int, void *);
-static int goDiffIter(rbd_image_t imageHandle, const char *snapName, uint64_t offset, uint64_t len, void* userdata) {
-   return rbd_diff_iterate(imageHandle, snapName, offset, len, goDiffCB, userdata);
-}
 */
 import "C"
 
@@ -994,29 +989,4 @@ func TrashRestore(ioctx *rados.IOContext, id, name string) error {
 	defer C.free(unsafe.Pointer(c_name))
 
 	return GetError(C.rbd_trash_restore(C.rados_ioctx_t(ioctx.Pointer()), c_id, c_name))
-}
-
-// DiffHandler is the signature of the callback passed to DiffIterate.
-type DiffHandler func(offset, length, exists int, d interface{}) int
-
-type diffHandlerPasser struct {
-	f DiffHandler
-	d interface{}
-}
-
-//export goDiffCB
-func goDiffCB(offset C.uint64_t, length C.size_t, exists C.int, userdata unsafe.Pointer) C.int {
-	req := (*diffHandlerPasser)(userdata)
-	return C.int(req.f(int(offset), int(length), int(exists), req.d))
-}
-
-// DiffIterate iterates over the changed extents of an image.
-//
-// See https://stackoverflow.com/questions/6125683/call-go-functions-from-c for
-// more information on the c plumbing necessary to make this works.
-func (img *Image) DiffIterate(offset int, length uint64, fromSnapshot string, f DiffHandler, d interface{}) error {
-	fromSnapshotC := C.CString(fromSnapshot)
-	defer C.free(unsafe.Pointer(fromSnapshotC))
-	req := unsafe.Pointer(&diffHandlerPasser{f, d})
-	return GetError(C.goDiffIter(img.image, fromSnapshotC, C.uint64_t(offset), C.uint64_t(length), req))
 }
