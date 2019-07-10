@@ -14,7 +14,7 @@ type Image struct {
 }
 
 func (image *Image) Create() error {
-	log.Printf("创建pool:%s, name:%s, size:%d", image.Pool, image.Name, image.Size)
+	log.Printf("创建云盘pool:%s, name:%s, size:%d \n", image.Pool, image.Name, image.Size)
 	conn, _ := rados.NewConn()
 	conn.ReadDefaultConfigFile()
 	conn.Connect()
@@ -29,5 +29,12 @@ func (image *Image) Create() error {
 	}
 	ioctx.Destroy()
 	conn.Shutdown()
+	return nil
+}
+
+func (image *Image) Delete() error {
+	log.Printf("删除云盘pool:%s, name:%s \n", image.Pool, image.Name)
+	conn, _ := rados.NewConn()
+	
 	return nil
 }
