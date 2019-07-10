@@ -9,13 +9,17 @@ import (
 	"os/exec"
 )
 
-type Image struct {
+type ImageService struct {
 	Pool string `uri:"pool" json:"pool"`
 	Name string `uri:"name" json:"name"`
 	Size uint64 `uri:"size" json:"size"`
 }
 
-func (image *Image) Create() error {
+type Pool struct {
+
+}
+
+func (image *ImageService) Create() error {
 	log.Printf("创建云盘pool:%s, name:%s, size:%d \n", image.Pool, image.Name, image.Size)
 	conn, _ := rados.NewConn()
 	_ = conn.ReadDefaultConfigFile()
@@ -33,7 +37,7 @@ func (image *Image) Create() error {
 	return nil
 }
 
-func (image *Image) Delete() error {
+func (image *ImageService) Delete() error {
 	log.Printf("删除云盘pool:%s, name:%s \n", image.Pool, image.Name)
 	conn, _ := rados.NewConn()
 	defer conn.Shutdown()
@@ -51,7 +55,7 @@ func (image *Image) Delete() error {
 	return nil
 }
 
-func (image *Image) Resize() error {
+func (image *ImageService) Resize() error {
 	log.Printf("修改云盘大小pool:%s, name:%s, size:%d", image.Pool, image.Name, image.Size)
 	conn, _ := rados.NewConn()
 	defer conn.Shutdown()
@@ -74,7 +78,7 @@ func (image *Image) Resize() error {
 	return nil
 }
 
-func (image *Image) GetUsage() (used int64, error error) {
+func (image *ImageService) GetUsage() (used int64, error error) {
 	cmd := exec.Command("rbd", "-u", image.Pool + "/" + image.Name)
 	sdtout, err := cmd.StdoutPipe()
 	if err != nil {

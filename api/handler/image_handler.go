@@ -9,9 +9,9 @@ import (
 
 // 创建image
 func CreateImage(ctx *gin.Context) {
-	var image service.Image
-	if err := ctx.ShouldBindUri(&image); err == nil {
-		if err := image.Create(); err == nil {
+	var imageService service.ImageService
+	if err := ctx.ShouldBindUri(&imageService); err == nil {
+		if err := imageService.Create(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
 				Msg:  "创建成功",
@@ -35,9 +35,9 @@ func CreateImage(ctx *gin.Context) {
 
 // 删除image
 func DeleteImage(ctx *gin.Context) {
-	var image service.Image
-	if err := ctx.ShouldBindUri(&image); err == nil {
-		if err := image.Delete(); err == nil {
+	var imageService service.ImageService
+	if err := ctx.ShouldBindUri(&imageService); err == nil {
+		if err := imageService.Delete(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
 				Msg:  "删除成功",
@@ -66,9 +66,9 @@ func GetImageUsage(ctx *gin.Context) {
 
 // resize
 func UpdateImageSize(ctx *gin.Context) {
-	var image service.Image
-	if err := ctx.ShouldBindUri(&image); err == nil {
-		if err := image.Delete(); err == nil {
+	var imageService service.ImageService
+	if err := ctx.ShouldBindUri(&imageService); err == nil {
+		if err := imageService.Delete(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
 				Msg:  "删除成功",
