@@ -15,12 +15,10 @@
 			"revisionTime": "2019-07-10T05:02:40Z"
 		},
 		{
-			"checksumSHA1": "YVt5lqmGq95m5tFdiz5pr2BF1Jo=",
+			"checksumSHA1": "WIzMb5VsQrOUqX2eZLcJjAIRJk4=",
 			"path": "github.com/gin-gonic/gin/binding",
-			"revision": "d459835d2b077e44f7c9b453505ee29881d5d12d",
-			"revisionTime": "2017-07-02T09:28:26Z",
-			"version": "v1.2",
-			"versionExact": "v1.2"
+			"revision": "502c898d755b2156b295ea8bdbbecf9ba374d067",
+			"revisionTime": "2019-07-10T05:02:40Z"
 		},
 		{
 			"checksumSHA1": "rST0S8cuVbM57VmJhWXhKNUkKTc=",
@@ -29,12 +27,10 @@
 			"revisionTime": "2019-07-10T05:02:40Z"
 		},
 		{
-			"checksumSHA1": "M3FwiqpVbXwo9t2FyI5/gKxCDKY=",
+			"checksumSHA1": "4XLWNQHHCyHJCCROC4UXSn7U1OM=",
 			"path": "github.com/gin-gonic/gin/render",
-			"revision": "d459835d2b077e44f7c9b453505ee29881d5d12d",
-			"revisionTime": "2017-07-02T09:28:26Z",
-			"version": "v1.2",
-			"versionExact": "v1.2"
+			"revision": "502c898d755b2156b295ea8bdbbecf9ba374d067",
+			"revisionTime": "2019-07-10T05:02:40Z"
 		},
 		{
 			"checksumSHA1": "CGj8VcI/CpzxaNqlqpEVM7qElD4=",
