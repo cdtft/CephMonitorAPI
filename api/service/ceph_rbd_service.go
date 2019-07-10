@@ -16,15 +16,14 @@ type Image struct {
 func (image *Image) Create() error {
 	log.Printf("创建云盘pool:%s, name:%s, size:%d \n", image.Pool, image.Name, image.Size)
 	conn, _ := rados.NewConn()
-	conn.ReadDefaultConfigFile()
-	conn.Connect()
+	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
 	ioctx, err := conn.OpenIOContext(image.Pool)
 
 	if err != nil {
 		return errors.New("云盘创建失败:" + err.Error())
 	}
-	_, err = rbd.Create(ioctx, image.Name, image.Size*1024*1024*1024, 22)
-	if err != nil {
+	if _, err = rbd.Create(ioctx, image.Name, image.Size*1024*1024*1024, 22); err != nil {
 		return errors.New("云盘创建失败:" + err.Error())
 	}
 	ioctx.Destroy()
@@ -35,6 +34,40 @@ func (image *Image) Create() error {
 func (image *Image) Delete() error {
 	log.Printf("删除云盘pool:%s, name:%s \n", image.Pool, image.Name)
 	conn, _ := rados.NewConn()
-	
+	defer conn.Shutdown()
+	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
+	ioctx, err := conn.OpenIOContext(image.Pool)
+	defer ioctx.Destroy()
+	if err != nil {
+		return errors.New("云盘删除失败:" + err.Error())
+	}
+	cephImage := rbd.GetImage(ioctx, image.Name)
+	if err = cephImage.Remove(); err != nil {
+		return errors.New("云盘删除失败:" + err.Error())
+	}
+	return nil
+}
+
+func (image *Image) Resize() error {
+	log.Printf("修改云盘大小pool:%s, name:%s, size:%d", image.Pool, image.Name, image.Size)
+	conn, _ := rados.NewConn()
+	defer conn.Shutdown()
+	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
+	ioctx, err := conn.OpenIOContext(image.Pool)
+	defer ioctx.Destroy()
+	if err != nil {
+		return errors.New("云盘删除失败:" + err.Error())
+	}
+	cephImage := rbd.GetImage(ioctx, image.Name)
+	originSize, _ := cephImage.GetSize()
+	resize :=  image.Size * 1024 * 1024 * 102
+	if originSize > resize {
+		return errors.New("修改云盘的大小，小于原大小")
+	}
+	if err = cephImage.Resize(resize); err != nil {
+		return errors.New("云盘删除失败:" + err.Error())
+	}
 	return nil
 }
