@@ -61,7 +61,28 @@ func DeleteImage(ctx *gin.Context) {
 
 // 获取image使用率
 func GetImageUsage(ctx *gin.Context) {
-
+	var imageService service.ImageService
+	if err := ctx.ShouldBindUri(&imageService); err == nil {
+		if used, err := imageService.GetUsage(); err == nil {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1200,
+				Msg:  "获取已使用大小",
+				Data: used,
+			})
+		} else {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1500,
+				Msg: err.Error(),
+				Data: nil,
+			})
+		}
+	} else {
+		ctx.JSON(400, serializer.ResponseJSON{
+			Code: 1400,
+			Msg:  "参数绑定失败",
+			Data: nil,
+		})
+	}
 }
 
 // resize

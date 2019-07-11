@@ -3,10 +3,11 @@ package service
 import (
 	"CephMonitorAPI/goceph/rados"
 	"CephMonitorAPI/goceph/rbd"
+	"bytes"
 	"errors"
-	"io/ioutil"
 	"log"
 	"os/exec"
+	"strings"
 )
 
 type ImageService struct {
@@ -16,7 +17,6 @@ type ImageService struct {
 }
 
 type Pool struct {
-
 }
 
 func (image *ImageService) Create() error {
@@ -68,7 +68,7 @@ func (image *ImageService) Resize() error {
 	}
 	cephImage := rbd.GetImage(ioctx, image.Name)
 	originSize, _ := cephImage.GetSize()
-	resize :=  image.Size * 1024 * 1024 * 102
+	resize := image.Size * 1024 * 1024 * 102
 	if originSize > resize {
 		return errors.New("修改云盘的大小，小于原大小")
 	}
@@ -78,18 +78,15 @@ func (image *ImageService) Resize() error {
 	return nil
 }
 
-func (image *ImageService) GetUsage() (used int64, error error) {
-	cmd := exec.Command("rbd", "-u", image.Pool + "/" + image.Name)
-	sdtout, err := cmd.StdoutPipe()
-	if err != nil {
-		return -1, errors.New("云盘统计命令执行获取输出流失败")
+func (image *ImageService) GetUsage() (used string, error error) {
+	log.Printf("执行统计命令pool:%s, name:%s", image.Pool, image.Name)
+	cmd := exec.Command("/bin/bash", "-c", "rbd du "+image.Pool+"/"+image.Name)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	if err := cmd.Run(); err != nil {
+		return "-1", errors.New("云盘统计命令执行失败")
 	}
-	defer sdtout.Close()
-	if err = cmd.Run(); err != nil {
-		return -1, errors.New("云盘统计命令执行失败")
-	}
-	result, _ := ioutil.ReadAll(sdtout)
-	log.Println(string(result))
-	//TODO 匹配出云盘的使用大小
-	return -2, nil
+	resultStringArray := strings.Fields(out.String())
+	usedStr := resultStringArray[5]
+	return usedStr, nil
 }
