@@ -93,5 +93,8 @@ func (image *ImageService) GetUsage() (used string, error error) {
 }
 
 func (pool *PoolService) createPool() {
-	
+	log.Printf("创建pool:%s", pool.Name)
+	conn, _ := rados.NewConn()
+	defer conn.Shutdown()
+	_ = conn.ReadDefaultConfigFile()
 }
