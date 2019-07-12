@@ -11,4 +11,5 @@ func main() {
  	if err != nil {
 		log.Println("应用启动失败", err)
 	}
+ 	log.Println("CephMonitorAPI启动成功")
 }
