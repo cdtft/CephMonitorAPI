@@ -9,9 +9,10 @@ var MyCephConn *rados.Conn
 
 func init() {
 	log.Print("初始化ceph链接")
-	//InstanceMyCephConn()
+	InstanceMyCephConn()
 }
 
+//获得连接
 func InstanceMyCephConn() *rados.Conn {
 	if MyCephConn != nil {
 		MyCephConn, _ = rados.NewConn()
@@ -21,7 +22,8 @@ func InstanceMyCephConn() *rados.Conn {
 	return MyCephConn
 }
 
-func CloseMyConn() {
+//关闭连接
+func CloseMyCephConn() {
 	if MyCephConn != nil {
 		MyCephConn.Shutdown()
 	}
