@@ -1,15 +1,35 @@
 package main
 
 import (
+	"time"
+	"context"
 	"CephMonitorAPI/api/server"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
 )
 
 func main() {
 	router := server.NewRouter()
- 	err := router.Run("0.0.0.0:10086")
- 	if err != nil {
-		log.Println("应用启动失败", err)
+	svc := &http.Server{
+		Handler: router,
+		Addr:    ":10086",
 	}
- 	log.Println("CephMonitorAPI启动成功")
+	go func() {
+		if err := svc.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s \n", err)
+		}
+	}()
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	log.Println("Shutdown server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := svc.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
+	log.Println("Server exiting...")
 }
