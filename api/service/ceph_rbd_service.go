@@ -16,7 +16,8 @@ type ImageService struct {
 	Size uint64 `uri:"size" json:"size"`
 }
 
-type Pool struct {
+type PoolService struct {
+	Name string `uri:"name" json:"name"`
 }
 
 func (image *ImageService) Create() error {
@@ -89,4 +90,8 @@ func (image *ImageService) GetUsage() (used string, error error) {
 	resultStringArray := strings.Fields(out.String())
 	usedStr := resultStringArray[5]
 	return usedStr, nil
+}
+
+func (pool *PoolService) createPool() {
+	
 }
