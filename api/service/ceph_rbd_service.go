@@ -40,10 +40,11 @@ func (image *ImageService) Create() error {
 
 func (image *ImageService) Delete() error {
 	log.Printf("删除云盘pool:%s, name:%s \n", image.Pool, image.Name)
-	conn, _ := rados.NewConn()
-	defer conn.Shutdown()
-	_ = conn.ReadDefaultConfigFile()
-	_ = conn.Connect()
+	// conn, _ := rados.NewConn()
+	// defer conn.Shutdown()
+	// _ = conn.ReadDefaultConfigFile()
+	// _ = conn.Connect()
+	conn := InstanceMyCephConn()
 	ioctx, err := conn.OpenIOContext(image.Pool)
 	defer ioctx.Destroy()
 	if err != nil {
@@ -98,3 +99,4 @@ func (pool *PoolService) createPool() {
 	defer conn.Shutdown()
 	_ = conn.ReadDefaultConfigFile()
 }
+

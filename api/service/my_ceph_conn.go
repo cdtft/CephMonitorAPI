@@ -5,26 +5,26 @@ import (
 	"log"
 )
 
-var MyCephConn *rados.Conn
+var myCephConn *rados.Conn
 
 func init() {
 	log.Print("初始化ceph链接")
-	InstanceMyCephConn()
+	//InstanceMyCephConn()
 }
 
 //获得连接
 func InstanceMyCephConn() *rados.Conn {
-	if MyCephConn != nil {
-		MyCephConn, _ = rados.NewConn()
-		_ = MyCephConn.ReadDefaultConfigFile()
-		_ = MyCephConn.Connect()
+	if myCephConn == nil {
+		myCephConn, _ = rados.NewConn()
+		myCephConn.ReadDefaultConfigFile()
+		myCephConn.Connect()
 	}
-	return MyCephConn
+	return myCephConn
 }
 
 //关闭连接
 func CloseMyCephConn() {
-	if MyCephConn != nil {
-		MyCephConn.Shutdown()
+	if myCephConn != nil {
+		myCephConn.Shutdown()
 	}
 }
