@@ -40,11 +40,10 @@ func (image *ImageService) Create() error {
 
 func (image *ImageService) Delete() error {
 	log.Printf("删除云盘pool:%s, name:%s \n", image.Pool, image.Name)
-	// conn, _ := rados.NewConn()
-	// defer conn.Shutdown()
-	// _ = conn.ReadDefaultConfigFile()
-	// _ = conn.Connect()
-	conn := InstanceMyCephConn()
+	conn, _ := rados.NewConn()
+	defer conn.Shutdown()
+	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
 	ioctx, err := conn.OpenIOContext(image.Pool)
 	defer ioctx.Destroy()
 	if err != nil {
@@ -93,10 +92,28 @@ func (image *ImageService) GetUsage() (used string, error error) {
 	return usedStr, nil
 }
 
-func (pool *PoolService) createPool() {
+func (pool *PoolService) CreatePool() error {
 	log.Printf("创建pool:%s", pool.Name)
 	conn, _ := rados.NewConn()
-	defer conn.Shutdown()
 	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
+	defer conn.Shutdown()
+	if err := conn.MakePool(pool.Name); err != nil {
+		return errors.New("创建pool失败！")
+	}
+	return nil
+}
+
+//这是一个很危险的方法
+func (pool *PoolService) DeletePool() error {
+	log.Printf("创建pool:%s", pool.Name)
+	conn, _ := rados.NewConn()
+	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
+	defer conn.Shutdown()
+	if err := conn.DeletePool(pool.Name); err != nil {
+		return errors.New("删除pool失败！")
+	}
+	return nil
 }
 

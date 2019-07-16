@@ -18,6 +18,9 @@ func NewRouter() *gin.Engine {
 	//rbd
 	rbdApi := router.Group("/api/v1/ceph/rbd")
 	{
+		rbdApi.POST("/pool/:poolName", handler.CreatePool)
+		rbdApi.DELETE("/pool/:poolName", handler.DeletePool)
+
 		rbdApi.POST("/:pool/image/:name/:size", handler.CreateImage)
 		rbdApi.DELETE("/:pool/image/:name", handler.DeleteImage)
 		rbdApi.GET("/:pool/image/:name/usage", handler.GetImageUsage)

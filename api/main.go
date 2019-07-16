@@ -26,8 +26,6 @@ func main() {
 	<-quit
 	log.Println("Shutdown server... free MyCephConn!!")
 
-	//service.CloseMyCephConn()
-
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := svc.Shutdown(ctx); err != nil {

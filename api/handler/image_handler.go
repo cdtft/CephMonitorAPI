@@ -20,7 +20,7 @@ func CreateImage(ctx *gin.Context) {
 		} else {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1500,
-				Msg: err.Error(),
+				Msg:  err.Error(),
 				Data: nil,
 			})
 		}
@@ -46,7 +46,7 @@ func DeleteImage(ctx *gin.Context) {
 		} else {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1500,
-				Msg: err.Error(),
+				Msg:  err.Error(),
 				Data: nil,
 			})
 		}
@@ -72,7 +72,7 @@ func GetImageUsage(ctx *gin.Context) {
 		} else {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1500,
-				Msg: err.Error(),
+				Msg:  err.Error(),
 				Data: nil,
 			})
 		}
@@ -98,7 +98,59 @@ func UpdateImageSize(ctx *gin.Context) {
 		} else {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1500,
-				Msg: err.Error(),
+				Msg:  err.Error(),
+				Data: nil,
+			})
+		}
+	} else {
+		ctx.JSON(400, serializer.ResponseJSON{
+			Code: 1400,
+			Msg:  "参数绑定失败",
+			Data: nil,
+		})
+	}
+}
+
+//创建pool
+func CreatePool(ctx *gin.Context) {
+	var imageService service.PoolService
+	if err := ctx.ShouldBindUri(&imageService); err == nil {
+		if err := imageService.CreatePool(); err == nil {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1200,
+				Msg:  "创建成功",
+				Data: nil,
+			})
+		} else {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1500,
+				Msg:  err.Error(),
+				Data: nil,
+			})
+		}
+	} else {
+		ctx.JSON(400, serializer.ResponseJSON{
+			Code: 1400,
+			Msg:  "参数绑定失败",
+			Data: nil,
+		})
+	}
+}
+
+//删除pool
+func DeletePool(ctx *gin.Context) {
+	var imageService service.PoolService
+	if err := ctx.ShouldBindUri(&imageService); err == nil {
+		if err := imageService.DeletePool(); err == nil {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1200,
+				Msg:  "创建成功",
+				Data: nil,
+			})
+		} else {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1500,
+				Msg:  err.Error(),
 				Data: nil,
 			})
 		}
