@@ -25,6 +25,11 @@ func NewRouter() *gin.Engine {
 		rbdApi.DELETE("/:pool/image/:name", handler.DeleteImage)
 		rbdApi.GET("/:pool/image/:name/usage", handler.GetImageUsage)
 		rbdApi.PUT("/:pool/image/:name/:size", handler.UpdateImageSize)
+
+		//batch
+		rbdApi.GET("/:pool/images/usages", handler.GetImagesInfos)
+		rbdApi.POST("/:pool/images", handler.CreateImages)
+		rbdApi.DELETE("/:pool/images", handler.DeleteImages)
 	}
 
 	//cephfs
