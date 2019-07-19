@@ -16,6 +16,17 @@ type ImageService struct {
 	Size uint64 `uri:"size" json:"size"`
 }
 
+type ImageBatchService struct {
+	Pool   string      `uri:"pool" json:"pool"`
+	Images []ImageInfo `json:"images"`
+}
+
+type ImageInfo struct {
+	Name string `json:"name"`
+	Used string `json:"used"`
+	Size uint64 `json:"size"`
+}
+
 type PoolService struct {
 	Name string `uri:"name" json:"name"`
 }
@@ -117,3 +128,75 @@ func (pool *PoolService) DeletePool() error {
 	return nil
 }
 
+func (imageBatch *ImageBatchService) DeleteImages() error {
+	conn, _ := rados.NewConn()
+	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
+	defer conn.Shutdown()
+	ctx, err := conn.OpenIOContext(imageBatch.Pool)
+	if err != nil {
+		return errors.New("打开k8s池失败")
+	}
+	for _, image := range imageBatch.Images {
+		log.Printf("开始删除image, Pool:%s, Name:%s", imageBatch.Pool, image.Name)
+		cephImage := rbd.GetImage(ctx, image.Name)
+		_ = cephImage.Remove()
+	}
+	return nil
+}
+
+func (imageBatch *ImageBatchService) CreateImages() error {
+	conn, _ := rados.NewConn()
+	_ = conn.ReadDefaultConfigFile()
+	_ = conn.Connect()
+	defer conn.Shutdown()
+	ctx, err := conn.OpenIOContext(imageBatch.Pool)
+	if err != nil {
+		return errors.New("打开k8s池失败")
+	}
+	for _, image := range imageBatch.Images {
+		log.Printf("开始创建image, Pool:%s, Name:%s, Size:%d", imageBatch.Pool, image.Name, image.Size)
+		_, _ = rbd.Create(ctx, image.Name, image.Size*1024*1024*1024, 22)
+	}
+	return nil
+}
+
+func (imageBatch *ImageBatchService) GetImagesInfo() (imageInfos []ImageInfo, error error) {
+
+	var images = imageBatch.Images
+	infoChan := make(chan ImageInfo, 3)
+	imageLen := len(images)
+	boundary := imageLen % 5
+	for index := 0; index <= imageLen; index += 5 {
+		if (imageLen > boundary && imageLen-index < 5) || imageLen <= boundary {
+			go calculateImageUsed(imageBatch.Pool, images[index:], infoChan)
+			break
+		}
+		go calculateImageUsed(imageBatch.Pool, images[index:index+5], infoChan)
+	}
+	var resultImageInfos []ImageInfo
+
+	for {
+		image := <-infoChan
+		resultImageInfos = append(resultImageInfos, image)
+		if len(resultImageInfos) == len(images) {
+			close(infoChan)
+			return resultImageInfos, nil
+		}
+	}
+}
+
+//计算云盘的使用大小
+func calculateImageUsed(poolName string, imageInfos []ImageInfo, c chan ImageInfo) {
+	for _, imageInfo := range imageInfos {
+		cmd := exec.Command("/bin/bash", "-c", "rbd du "+poolName+"/"+imageInfo.Name)
+		var out bytes.Buffer
+		cmd.Stdout = &out
+		if err := cmd.Run(); err != nil {
+
+		}
+		resultStringArray := strings.Fields(out.String())
+		usedStr := resultStringArray[5]
+		c <- ImageInfo{imageInfo.Name, usedStr, 0}
+	}
+}
