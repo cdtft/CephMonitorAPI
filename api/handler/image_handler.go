@@ -113,9 +113,9 @@ func UpdateImageSize(ctx *gin.Context) {
 
 //创建pool
 func CreatePool(ctx *gin.Context) {
-	var imageService service.PoolService
-	if err := ctx.ShouldBindUri(&imageService); err == nil {
-		if err := imageService.CreatePool(); err == nil {
+	var poolService service.PoolService
+	if err := ctx.ShouldBindUri(&poolService); err == nil {
+		if err := poolService.CreatePool(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
 				Msg:  "创建成功",
@@ -139,9 +139,9 @@ func CreatePool(ctx *gin.Context) {
 
 //删除pool
 func DeletePool(ctx *gin.Context) {
-	var imageService service.PoolService
-	if err := ctx.ShouldBindUri(&imageService); err == nil {
-		if err := imageService.DeletePool(); err == nil {
+	var poolService service.PoolService
+	if err := ctx.ShouldBindUri(&poolService); err == nil {
+		if err := poolService.DeletePool(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
 				Msg:  "创建成功",
