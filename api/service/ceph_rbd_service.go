@@ -162,10 +162,12 @@ func (imageBatch *ImageBatchService) CreateImages() error {
 }
 
 func (imageBatch *ImageBatchService) GetImagesInfo() (imageInfos []ImageInfo, error error) {
-
 	var images = imageBatch.Images
-	infoChan := make(chan ImageInfo, 3)
 	imageLen := len(images)
+	if imageLen == 0 {
+		return nil, errors.New("image名称不能为空")
+	}
+	infoChan := make(chan ImageInfo, 3)
 	boundary := imageLen % 5
 	for index := 0; index <= imageLen; index += 5 {
 		if (imageLen > boundary && imageLen-index < 5) || imageLen <= boundary {

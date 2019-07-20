@@ -216,7 +216,10 @@ func DeleteImages(ctx *gin.Context) {
 
 func GetImagesInfos(ctx *gin.Context) {
 	var imageBatchService service.ImageBatchService
-	if err := ctx.ShouldBind(&imageBatchService); err == nil {
+	pool := ctx.Param("pool")
+	
+	if err := ctx.BindJSON(&imageBatchService); err == nil {
+		imageBatchService.Pool = pool
 		if imageInfos, err := imageBatchService.GetImagesInfo(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
@@ -234,7 +237,7 @@ func GetImagesInfos(ctx *gin.Context) {
 		ctx.JSON(400, serializer.ResponseJSON{
 			Code: 1400,
 			Msg:  "参数绑定失败",
-			Data: nil,
+			Data: err.Error(),
 		})
 	}
 }
