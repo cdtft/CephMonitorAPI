@@ -165,7 +165,9 @@ func DeletePool(ctx *gin.Context) {
 
 func CreateImages(ctx *gin.Context) {
 	var imageBatchService service.ImageBatchService
-	if err := ctx.ShouldBind(&imageBatchService); err == nil {
+	pool := ctx.Param("pool")
+	if err := ctx.ShouldBindJSON(&imageBatchService); err == nil {
+		imageBatchService.Pool = pool
 		if err := imageBatchService.CreateImages(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
@@ -191,7 +193,9 @@ func CreateImages(ctx *gin.Context) {
 
 func DeleteImages(ctx *gin.Context) {
 	var imageBatchService service.ImageBatchService
-	if err := ctx.ShouldBind(&imageBatchService); err == nil {
+	pool := ctx.Param("pool")
+	if err := ctx.BindJSON(&imageBatchService); err == nil {
+		imageBatchService.Pool = pool
 		if err := imageBatchService.DeleteImages(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
