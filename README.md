@@ -9,7 +9,7 @@
 在这个项目中我直接把github.com/ceph/go-ceph的代码copy到了goceph目录下，为了以后方便扩展
 一些对ceph的操作。
 
-在go-ceph中调用了librados c的库所以在开发调试的机器上需要安装下面的库
+在go-ceph中调用了librados c的库所以在开发调试的机器上需要安装下面的依赖库
 
 
 The native RADOS library and development headers are expected to be installed.
