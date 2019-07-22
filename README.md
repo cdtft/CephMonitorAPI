@@ -26,3 +26,41 @@ libcephfs-devel librbd-devel librados-devel
 
 就是因为上面所依赖的库可能对开发调试带来难度，应为我使用的mac没有找到如何安装依赖的C库还好我找了一个方法。
 VScode有一款插件可以远程编程，也就是可以使用服务器的环境在本地开发。
+
+## API 文档
+### image
+#### 1.CREAT 创建image
+##### URL
+`POST /api/v1/ceph/rbd/:pool/image/:name/:size`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 |
+| :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | |
+| 镜像名称 | image | string | |
+| 镜像大小 | size | int | 单位GB |
+#### 2.DELETE 删除image
+##### URL
+`DELETE /api/v1/ceph/rbd/:pool/image/:name`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 |
+| :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | |
+| 镜像名称 | image | string | |
+#### 3.UPDATE 修改image size
+##### URL
+`PUT /api/v1/ceph/rbd/:pool/image/:name/:size`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 |
+| :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | |
+| 镜像名称 | image | string | |
+| 镜像大小 | size | int | 单位GB |
+#### 4.GET USAGE 获取已使用大小
+##### URL
+`PUT /api/v1/ceph/rbd/:pool/image/:name/usage`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 |
+| :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | |
+| 镜像名称 | image | string | |
+##### Response Body

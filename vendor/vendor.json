@@ -3,6 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "github.com/KyleBanks/depth",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "qlEzrgKgIkh7y0ePm9BNo1cNdXo=",
 			"path": "github.com/gin-contrib/sse",
 			"revision": "54d8467d122d380a14768b6b4e5cd7ca4755938f",
@@ -31,6 +35,14 @@
 			"path": "github.com/gin-gonic/gin/render",
 			"revision": "502c898d755b2156b295ea8bdbbecf9ba374d067",
 			"revisionTime": "2019-07-10T05:02:40Z"
+		},
+		{
+			"path": "github.com/go-openapi/jsonreference",
+			"revision": ""
+		},
+		{
+			"path": "github.com/go-openapi/spec",
+			"revision": ""
 		},
 		{
 			"checksumSHA1": "CGj8VcI/CpzxaNqlqpEVM7qElD4=",
@@ -63,16 +75,52 @@
 			"revisionTime": "2018-07-18T01:23:57Z"
 		},
 		{
+			"path": "github.com/pkg/errors",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "YYf8MNm/ypogsTcFdD389qLeMy0=",
+			"path": "github.com/swaggo/files",
+			"revision": "630677cd5c140664e2ff6b53e75c289877268c69",
+			"revisionTime": "2019-07-04T08:51:06Z"
+		},
+		{
+			"checksumSHA1": "vb3RrtAvSLgXraq3nUKJyWqbvks=",
+			"path": "github.com/swaggo/gin-swagger",
+			"revision": "d488a692749fd254a12d1d1326caa3419953e82d",
+			"revisionTime": "2019-07-17T07:42:06Z"
+		},
+		{
+			"checksumSHA1": "aOaKMonx9PXaA5yY07P88dSilBY=",
+			"path": "github.com/swaggo/swag",
+			"revision": "67075e4b3af111620c5bbd3fef3f0ca6af3cfb96",
+			"revisionTime": "2019-07-20T15:13:10Z"
+		},
+		{
 			"checksumSHA1": "sYPJsF3VamZlUTqjMmi97YyCnaU=",
 			"path": "github.com/ugorji/go/codec",
 			"revision": "02994ffebd8e7ef482130d13b570c8be0968b790",
 			"revisionTime": "2019-07-05T23:50:43Z"
 		},
 		{
+			"checksumSHA1": "iSRyy83Oz52vzNaIF1l8L88ItNU=",
+			"path": "golang.org/x/net/webdav",
+			"revision": "da137c7871d730100384dbcf36e6f8fa493aef5b",
+			"revisionTime": "2019-06-28T18:40:41Z"
+		},
+		{
+			"path": "golang.org/x/net/webdav/internal/xml",
+			"revision": "da137c7871d730100384dbcf36e6f8fa493aef5b"
+		},
+		{
 			"checksumSHA1": "oxQzknCJtgckDEKh+zp99Ph3Qkg=",
 			"path": "golang.org/x/sys/unix",
 			"revision": "04f50cda93cbb67f2afa353c52f342100e80e625",
 			"revisionTime": "2019-06-26T21:29:17Z"
+		},
+		{
+			"path": "golang.org/x/tools/go/loader",
+			"revision": ""
 		},
 		{
 			"checksumSHA1": "P/k5ZGf0lEBgpKgkwy++F7K1PSg=",
