@@ -1,6 +1,6 @@
 # CephMonitorAPI - Go bindings for Ceph RESTful APIs
-
-[![Build Status](https://travis-ci.org/ceph/go-ceph.svg)](https://travis-ci.org/ceph/go-ceph)  [![license](http://img.shields.io/badge/license-MIT-red.svg?style=flat)](https://raw.githubusercontent.com/ceph/go-ceph/master/LICENSE)
+## Ceph as a service
+[![Build Status](https://travis-ci.org/ceph/go-ceph.svg)](https://travis-ci.org/ceph/go-ceph) [![license](http://img.shields.io/badge/license-MIT-red.svg?style=flat)](https://raw.githubusercontent.com/ceph/go-ceph/master/LICENSE)
 
 在kubernetes中使用CEPH作为持久化存储卷，当然可以使用StorageClass动态的创建PV和CEPH中的image但是这对持久化的存储卷的管理
 带来了麻烦。例如：获取持久化的卷的使用率等，所以建立一套REST API完成持久化卷的管理无论是rbd还是cephfs存储方式都可以更灵活的使用并监管。
