@@ -1,4 +1,4 @@
-package CephMonitorAPI
+package main
 
 import (
 	"CephMonitorAPI/api/server"
