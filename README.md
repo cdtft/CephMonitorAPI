@@ -33,46 +33,159 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 ##### URL
 `POST /api/v1/ceph/rbd/:pool/image/:name/:size`
 ##### Path Param
-| 名称 | 变量名称 | 类型 | 备注 |
-| :---: | :---: | :---: | :---: |
-| 池名称 | pool | string | |
-| 镜像名称 | image | string | |
-| 镜像大小 | size | int | 单位GB |
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+| 镜像名称 | image | string | | required |
+| 镜像大小 | size | int | 单位GB | required |
 #### 2.DELETE 删除image
 ##### URL
 `DELETE /api/v1/ceph/rbd/:pool/image/:name`
 ##### Path Param
-| 名称 | 变量名称 | 类型 | 备注 |
-| :---: | :---: | :---: | :---: |
-| 池名称 | pool | string | |
-| 镜像名称 | image | string | |
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+| 镜像名称 | image | string | | required |
 #### 3.UPDATE 修改image size
 ##### URL
 `PUT /api/v1/ceph/rbd/:pool/image/:name/:size`
 ##### Path Param
-| 名称 | 变量名称 | 类型 | 备注 |
-| :---: | :---: | :---: | :---: |
-| 池名称 | pool | string | |
-| 镜像名称 | image | string | |
-| 镜像大小 | size | int | 单位GB |
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+| 镜像名称 | image | string | | required |
+| 镜像大小 | size | int | 单位GB | required |
 #### 4.GET USAGE 获取已使用大小
 ##### URL
 `PUT /api/v1/ceph/rbd/:pool/image/:name/usage`
 ##### Path Param
-| 名称 | 变量名称 | 类型 | 备注 |
-| :---: | :---: | :---: | :---: |
-| 池名称 | pool | string | |
-| 镜像名称 | image | string | |
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+| 镜像名称 | image | string | | required |
 ##### Response Body
-| 名称 | 变量名称 | 类型 | 备注 |
-| :---: | :---: | :---: | :---: |
-| 池名称 | pool | string | |
-| 镜像名称 | image | string | |
-| 返回值 | data | string | 带单位B MB |
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+| 镜像名称 | image | string | | required |
+| 返回值 | data | string | 带单位B MB | required |
 ```json
 {
     "code": 1200,
     "msg": "获取已使用大小",
     "data": "0B"
+}
+```
+#### 5.Batch Create Images批量创建image
+##### URL
+`POST /api/v1/ceph/rbd/:pool/images`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+##### Request Body 
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 镜像列表 | images | Array(CreateImage) | | required |
+
+`CreateImage` object:
+
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 镜像名称 | name | string | | required |
+| 镜像大小 | size | int | 单位GB | required |
+```json
+{
+  "images": [
+      {
+          "name": "my-disk-1",
+          "size": 10
+      },
+      {
+          "name": "my-disk-2",
+          "size": 50
+      }
+  ]
+}
+```
+
+#### 5.Batch Delete Images批量删除image
+##### URL
+`DELETE /api/v1/ceph/rbd/:pool/images`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+##### Request Body
+
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 镜像列表 | name | Array(DeleteImage) | | required |
+
+`DeleteImage` object:
+
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 镜像名称 | name | string | | required |
+
+```json
+{
+  "images": [
+      {
+          "name": "my-disk-1"
+      },
+      {
+          "name": "my-disk-2"
+      }
+  ]
+}
+```
+
+#### 6.Batch Get Images Usage批量获取image使用大小
+##### URL
+`GET /api/v1/ceph/rbd/:pool/images/usages`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | pool | string | | required |
+##### Request Body
+
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 镜像列表 | name | Array(GetImage) | | required |
+
+`GetImage` object:
+
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 镜像名称 | name | string | | required |
+
+```json
+{
+  "images": [
+      {
+          "name": "my-disk-1"
+      },
+      {
+          "name": "my-disk-2"
+      }
+  ]
+}
+```
+##### Response Body
+```json
+{
+    "code": 1200,
+    "msg": "查询成功",
+    "data": [
+        {
+            "name": "my-disk-1",
+            "used": "0B"
+        },
+        {
+            "name": "my-disk-2",
+            "used": "472MiB"
+        }
+    ]
 }
 ```
