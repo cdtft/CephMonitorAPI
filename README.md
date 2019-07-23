@@ -30,7 +30,6 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 ## API 文档
 ### 一、IMAGE
 #### 1.CREAT 创建image
-##### URL
 `POST /api/v1/ceph/rbd/:pool/image/:name/:size`
 ##### Path Param
 | 名称 | 变量名称 | 类型 | 备注 | Optional |
@@ -39,7 +38,6 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 | 镜像名称 | image | string | | required |
 | 镜像大小 | size | int | 单位GB | required |
 #### 2.DELETE 删除image
-##### URL
 `DELETE /api/v1/ceph/rbd/:pool/image/:name`
 ##### Path Param
 | 名称 | 变量名称 | 类型 | 备注 | Optional |
@@ -47,7 +45,6 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 | 池名称 | pool | string | | required |
 | 镜像名称 | image | string | | required |
 #### 3.UPDATE 修改image size
-##### URL
 `PUT /api/v1/ceph/rbd/:pool/image/:name/:size`
 ##### Path Param
 | 名称 | 变量名称 | 类型 | 备注 | Optional |
@@ -56,7 +53,6 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 | 镜像名称 | image | string | | required |
 | 镜像大小 | size | int | 单位GB | required |
 #### 4.GET USAGE 获取已使用大小
-##### URL
 `PUT /api/v1/ceph/rbd/:pool/image/:name/usage`
 ##### Path Param
 | 名称 | 变量名称 | 类型 | 备注 | Optional |
@@ -77,7 +73,6 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 }
 ```
 #### 5.Batch Create Images批量创建image
-##### URL
 `POST /api/v1/ceph/rbd/:pool/images`
 ##### Path Param
 | 名称 | 变量名称 | 类型 | 备注 | Optional |
@@ -110,7 +105,6 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 ```
 
 #### 5.Batch Delete Images批量删除image
-##### URL
 `DELETE /api/v1/ceph/rbd/:pool/images`
 ##### Path Param
 | 名称 | 变量名称 | 类型 | 备注 | Optional |
@@ -142,7 +136,6 @@ VScode有一款插件可以远程编程，也就是可以使用服务器的环�
 ```
 
 #### 6.Batch Get Images Usage批量获取image使用大小
-##### URL
 `GET /api/v1/ceph/rbd/:pool/images/usages`
 ##### Path Param
 | 名称 | 变量名称 | 类型 | 备注 | Optional |
