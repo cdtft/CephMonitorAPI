@@ -18,7 +18,7 @@ func main() {
 		Handler: router,
 		Addr:    ":10086",
 	}
-	url := ginSwagger.URL("http://0.0.0.0:8080/swagger/doc.json") // The url pointing to API definition
+	url := ginSwagger.URL("http://localhost:10086/swagger/doc.json") // The url pointing to API definition
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	go func() {
 		if err := svc.ListenAndServe(); err != nil && err != http.ErrServerClosed {
