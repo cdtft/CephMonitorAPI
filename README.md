@@ -28,7 +28,21 @@ libcephfs-devel librbd-devel librados-devel
 VScode有一款插件可以远程编程，也就是可以使用服务器的环境在本地开发。
 
 ## API 文档
-### 一、IMAGE
+### 一、POOL
+#### 1.CRATE 创建Pool
+`POST /api/v1/ceph/pool/:poolName`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | poolName | string | | required |
+#### 2.DELETE 
+`DELETE /api/v1/ceph/pool/:poolName`
+##### Path Param
+| 名称 | 变量名称 | 类型 | 备注 | Optional |
+| :---: | :---: | :---: | :---: | :---: |
+| 池名称 | poolName | string | | required |
+
+### 二、IMAGE
 #### 1.CREAT 创建image
 `POST /api/v1/ceph/rbd/:pool/image/:name/:size`
 ##### Path Param

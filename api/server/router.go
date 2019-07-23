@@ -16,7 +16,7 @@ func NewRouter() *gin.Engine {
 		v1.POST("ping", handler.Ping)
 	}
 
-	poolApi := router.Group("api/v1/ceph/pool")
+	poolApi := router.Group("/api/v1/ceph/pool")
 	{
 		poolApi.POST("/:poolName", handler.CreatePool)
 		poolApi.DELETE("/:poolName", handler.DeletePool)
