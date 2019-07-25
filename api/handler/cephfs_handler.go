@@ -11,9 +11,9 @@ func TestCephFS(c *gin.Context)  {
 	mount, err := cephfs.CreateMount()
 	err = mount.ReadDefaultConfigFile()
 	err = mount.Mount()
-	if err == nil {
+	if err != nil {
 		fmt.Print("create mount error")
 	}
 	currentDir := mount.CurrentDir()
-	log.Print(currentDir)
+	log.Println(currentDir)
 }
