@@ -16,4 +16,12 @@ func TestCephFS(c *gin.Context)  {
 	}
 	currentDir := mount.CurrentDir()
 	log.Println(currentDir)
+	err = mount.MakeDir("/k8s/wangcheng", 0755)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+	mount.ChangeDir("/k8s/wangcheng")
+	currentDir = mount.CurrentDir()
+	log.Println(currentDir)
 }
