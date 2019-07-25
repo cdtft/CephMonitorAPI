@@ -39,7 +39,12 @@ func NewRouter() *gin.Engine {
 	//cephfs
 	fsApi := router.Group("/api/v1/ceph/fs")
 	{
-		fsApi.POST("/test", handler.TestCephFS)
+		fsApi.POST("/:dir", handler.CreateCephfsDir)
+		fsApi.DELETE("/:dir", handler.DeleteCephDir)
+		fsApi.GET("/:dir/usage", handler.GetCephDirUsage)
+		fsApi.GET("/:dir/info", handler.GetCephDirInfo)
+		fsApi.GET("/infos", handler.GetCephDirsInfo)
+		fsApi.PUT("/:dir", handler.ChomdCephDir)
 	}
 
 	return router
