@@ -1,10 +1,9 @@
 package handler
 
 import (
-	"CephMonitorAPI/goceph/cephfs"
-	"fmt"
+	"CephMonitorAPI/api/serializer"
+	"CephMonitorAPI/api/service"
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
 const (
@@ -18,23 +17,29 @@ const (
 	subdirs_commond  = "ceph.dir.subdirs"
 )
 
-func CreateCephfsDir(c *gin.Context) {
-	mount, err := cephfs.CreateMount()
-	err = mount.ReadDefaultConfigFile()
-	err = mount.Mount()
-	if err != nil {
-		fmt.Print("create mount error")
+func CreateCephfsDir(ctx *gin.Context) {
+	var cephfsService service.CephfsService
+	if err := ctx.ShouldBindUri(&cephfsService); err == nil {
+		if err := cephfsService.CreateDir(); err == nil {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1200,
+				Msg:  "创建成功",
+				Data: nil,
+			})
+		} else {
+			ctx.JSON(200, serializer.ResponseJSON{
+				Code: 1500,
+				Msg:  err.Error(),
+				Data: nil,
+			})
+		}
+	} else {
+		ctx.JSON(400, serializer.ResponseJSON{
+			Code: 1400,
+			Msg:  "参数绑定失败",
+			Data: nil,
+		})
 	}
-	currentDir := mount.CurrentDir()
-	log.Println(currentDir)
-	err = mount.MakeDir("/k8s/wangcheng", 0755)
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
-	mount.ChangeDir("/k8s/wangcheng")
-	currentDir = mount.CurrentDir()
-	log.Println(currentDir)
 }
 
 func DeleteCephDir(c *gin.Context) {
