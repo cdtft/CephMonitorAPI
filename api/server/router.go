@@ -42,8 +42,7 @@ func NewRouter() *gin.Engine {
 		fsApi.POST("/:dir", handler.CreateCephfsDir)
 		fsApi.DELETE("/:dir", handler.DeleteCephDir)
 		fsApi.GET("/:dir/usage", handler.GetCephDirUsage)
-		fsApi.GET("/:dir/info", handler.GetCephDirInfo)
-		fsApi.GET("/infos", handler.GetCephDirsInfo)
+		fsApi.GET("/dirs/usage", handler.GetCephDirsUsage)
 		fsApi.PUT("/:dir", handler.ChomdCephDir)
 	}
 
