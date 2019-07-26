@@ -83,7 +83,7 @@ func GetCephDirUsage(ctx *gin.Context) {
 
 func GetCephDirsUsage(ctx *gin.Context) {
 	var cephfsDirBatchService service.CephfsDirBatchService
-	if err := ctx.ShouldBindUri(&cephfsDirBatchService); err == nil {
+	if err := ctx.ShouldBindJSON(&cephfsDirBatchService); err == nil {
 		if dirUsageArray, err := cephfsDirBatchService.GetCephDirsUsage(); err == nil {
 			ctx.JSON(200, serializer.ResponseJSON{
 				Code: 1200,
